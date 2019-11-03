@@ -80,7 +80,10 @@ $(function () {
           self.toRate = toRate[0][0]
           toRate = parseFloat(self.toRate.Rate)
           self.rate = toRate * fromRate
-          self.recalc()
+
+          if (self.amountFrom) {
+            self.recalc()
+          }
         })
       },
       recalc: function () {
