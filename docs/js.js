@@ -13,6 +13,10 @@ $(function () {
       amountTo: '',
       currencyTo: 'USD',
       date: '1991-11-01',
+      fromRate: '',
+      fromRateDate: '',
+      toRate: '',
+      toRateDate: '',
       rate: ''
     },
 
@@ -41,12 +45,14 @@ $(function () {
         if (currency === 'USD') {
           return new Promise((resolve, reject) => {
             resolve([
-              [{Rate: 1}],
+              [{Rate: 1, Date: date}],
               'success'
             ])
           })
         }
-        var query = 'SELECT * FROM "rates" WHERE `Currency` = "' + currency + '" AND `Date` = "' + date + '" LIMIT 1'
+        var query = 'SELECT * FROM `rates` WHERE `Currency` = "' + currency + '" ORDER BY ABS( strftime( "%s", `Date` ) - strftime( "%s", "' + date + '" ) ) ASC LIMIT 1'
+
+        console.log(query)
 
         return $.ajax({
           url: morphApiUrl,
@@ -70,9 +76,11 @@ $(function () {
         var toRate = self.getRate(self.currencyTo, self.date)
 
         $.when(fromRate, toRate).done((fromRate, toRate) => {
-          fromRate = parseFloat(fromRate[0][0].Rate)
-          toRate = parseFloat(toRate[0][0].Rate)
-          self.rate = toRate / fromRate
+          self.fromRate = 1 / parseFloat(fromRate[0][0].Rate)
+          self.fromRateDate = fromRate[0][0].Date
+          self.toRate = parseFloat(toRate[0][0].Rate)
+          self.toRateDate = toRate[0][0].Date
+          self.rate = self.toRate * self.fromRate
           self.amountTo = self.amountFrom * self.rate
         })
       }

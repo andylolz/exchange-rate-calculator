@@ -21,6 +21,7 @@
   <script src="js.js" type="text/javascript"></script>
 
   <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="css.css">
 </head>
 <body>
   <div id="project" class="container py-5">
@@ -64,7 +65,15 @@
 
     <p><strong>{{ amountTo | round | commify }} {{ currencyTo }}</strong></p>
 
-    <p><small>Rate: {{ rate }}</small></p>
+    <div class="rates">
+      <h4>Exchange rates used</h4>
+      <p v-if="fromRateDate !== toRateDate && currencyFrom !== 'USD' && currencyTo !== 'USD'">
+        {{ currencyFrom }} -> USD: {{ fromRate }} ({{ fromRateDate }})<br />
+        USD -> {{ currencyTo }}: {{ toRate }} ({{ toRateDate }})<br /><br />
+        {{ currencyFrom }} -> {{ currencyTo }}: {{ rate }}
+      </p>
+      <p v-else>{{ currencyFrom }} -> {{ currencyTo }}: {{ rate }} ({{ fromRateDate }})</p>
+    </div>
 
   </div>
 
