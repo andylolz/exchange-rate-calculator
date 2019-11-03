@@ -10,10 +10,10 @@ $(function () {
     data: {
       currencies: [['USD', 'US Dollar'], ['AUD', 'Australian Dollar'], ['BRL', 'Brazilian Real'], ['CAD', 'Canadian Dollar'], ['CHF', 'Swiss Franc'], ['CLP', 'Chilean Peso'], ['CNY', 'Yuan Renminbi'], ['COP', 'Colombian Peso'], ['CRC', 'Costa Rican Colon'], ['CZK', 'Czech Koruna'], ['DKK', 'Danish Krone'], ['EUR', 'Euro'], ['GBP', 'Pound Sterling'], ['HKD', 'Hong Kong Dollar'], ['HUF', 'Forint'], ['IDR', 'Rupiah'], ['ILS', 'New Israeli Sheqel'], ['INR', 'Indian Rupee'], ['ISK', 'Iceland Krona'], ['JPY', 'Yen'], ['KRW', 'Won'], ['LKR', 'Sri Lanka Rupee'], ['LVL', 'Latvian Lats'], ['MXN', 'Mexican Peso'], ['MYR', 'Malaysian Ringgit'], ['NOK', 'Norwegian Krone'], ['NZD', 'New Zealand Dollar'], ['PLN', 'Zloty'], ['RUB', 'Russian Ruble'], ['SEK', 'Swedish Krona'], ['SGD', 'Singapore Dollar'], ['THB', 'Baht'], ['TRY', 'Turkish Lira'], ['TWD', 'New Taiwan Dollar'], ['VEF', 'Bolivar'], ['XDR', 'International Monetary Fund (IMF) Special Drawing Right (SDR)'], ['ZAR', 'Rand']],
       amountFrom: '1000000',
-      currencyFrom: 'GBP',
+      currencyFrom: 'XDR',
       amountTo: '',
-      currencyTo: 'USD',
-      date: '1991-11-01',
+      currencyTo: 'GBP',
+      date: '1998-11-12',
       fromRate: {},
       toRate: {},
       rate: ''
