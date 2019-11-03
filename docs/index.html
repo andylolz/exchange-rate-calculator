@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Perform historical exchange rate calculations in your browser.">
+
+    <meta property="og:site_name" content="Exchange Rate Calculator">
+    <meta property="og:url" content="{{ site.github.url }}">
+    <meta property="og:title" content="Exchange Rate Calculator">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="Perform historical exchange rate calculations in your browser.">
+
+    <title>Exchange Rate Calculator</title>
+
+  <script type="text/javascript" src="//unpkg.com/vue@latest/dist/vue.js"></script>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="js/js.js" type="text/javascript"></script>
+
+  <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+  <div id="project" class="container py-5">
+    <h1>Exchange Rate Calculator</h1>
+
+    <form>
+      <div class="form-group form-group-lg">
+        <label for="currencyFrom">Convert from</label>
+        <select v-model="currencyFrom" class="form-control" id="currencyFrom" name="currencyFrom">
+          <template v-for="currency in currencies">
+            <option
+              :value="currency[0]">
+            {{ currency[1] }} ({{ currency[0] }})
+            </option>
+          </template>
+        </select>
+      </div>
+
+      <div class="form-group form-group-lg">
+        <label for="amountFrom">Amount</label>
+        <input type="number" class="form-control" v-model="amountFrom" placeholder="Amount from" id="amountFrom" name="amountFrom" />
+      </div>
+
+      <div class="form-group form-group-lg">
+        <label for="currencyTo">Convert to</label>
+        <select v-model="currencyTo" class="form-control" id="currencyTo" name="currencyTo">
+          <template v-for="currency in currencies">
+            <option
+              :value="currency[0]">
+            {{ currency[1] }} ({{ currency[0] }})
+            </option>
+          </template>
+        </select>
+      </div>
+
+      <div class="form-group form-group-lg">
+        <label for="date">Date</label>
+        <input type="date" name="date" id="date" class="form-control" v-model="date" placeholder="Select a date" />
+      </div>
+    </form>
+
+    <p><strong>{{ amountTo | round | commify }} {{ currencyTo }}</strong></p>
+
+    <p><small>Rate: {{ rate }}</small></p>
+
+  </div>
+
+  <footer class="my-5 text-muted text-center text-small">
+    <p>Built using <a href="https://twitter.com/Mark_Brough">Mark Brough</a>’s <a href="https://morph.io/markbrough/exchangerates-scraper">exchange rates scraper</a>, which fetches data from OECD and FRED.<span id="last-updated"></span></p>
+
+    <p>
+      Access the data via <a href="https://morph.io/documentation/api?scraper=markbrough%2Fexchangerates-scraper">API</a>.
+    </p>
+
+    <p>
+      A <a href="https://codeforiati.org">Code for IATI</a> project /
+      <a href="https://github.com/codeforIATI/exchange-rate-calculator">Source code</a> /
+      <a href="https://github.com/codeforIATI/exchange-rate-calculator/issues/new/choose">Report a bug</a>
+    </p>
+  </footer>
+</body>
+</html>
