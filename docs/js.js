@@ -4,6 +4,7 @@ $(function () {
 
   var project = new Vue({
 
+    delimiters: ["<<", ">>"],
     el: '#project',
 
     data: {
@@ -13,10 +14,8 @@ $(function () {
       amountTo: '',
       currencyTo: 'USD',
       date: '1991-11-01',
-      fromRate: '',
-      fromRateDate: '',
-      toRate: '',
-      toRateDate: '',
+      fromRate: {},
+      toRate: {},
       rate: ''
     },
 
@@ -50,9 +49,7 @@ $(function () {
             ])
           })
         }
-        var query = 'SELECT * FROM `rates` WHERE `Currency` = "' + currency + '" ORDER BY ABS( strftime( "%s", `Date` ) - strftime( "%s", "' + date + '" ) ) ASC LIMIT 1'
-
-        console.log(query)
+        var query = 'SELECT * FROM `rates` WHERE `Currency` = "' + currency + '" ORDER BY ABS( strftime( "%s", `Date` ) - strftime( "%s", "' + date + '" ) ) ASC, Source DESC LIMIT 1'
 
         return $.ajax({
           url: morphApiUrl,
@@ -76,11 +73,11 @@ $(function () {
         var toRate = self.getRate(self.currencyTo, self.date)
 
         $.when(fromRate, toRate).done((fromRate, toRate) => {
-          self.fromRate = 1 / parseFloat(fromRate[0][0].Rate)
-          self.fromRateDate = fromRate[0][0].Date
-          self.toRate = parseFloat(toRate[0][0].Rate)
-          self.toRateDate = toRate[0][0].Date
-          self.rate = self.toRate * self.fromRate
+          self.fromRate = fromRate[0][0]
+          fromRate = 1 / parseFloat(self.fromRate.Rate)
+          self.toRate = toRate[0][0]
+          toRate = parseFloat(self.toRate.Rate)
+          self.rate = toRate * fromRate
           self.amountTo = self.amountFrom * self.rate
         })
       }
