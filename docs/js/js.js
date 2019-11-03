@@ -32,7 +32,7 @@ $(function () {
         return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       },
       round: (v) => {
-        return Math.round(v)
+        return (Math.round(v * 100) / 100).toFixed(2)
       }
     },
 
