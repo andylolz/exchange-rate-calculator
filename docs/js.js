@@ -24,10 +24,10 @@ $(function () {
     },
 
     watch: {
-      amountFrom: 'update',
       currencyFrom: 'update',
       currencyTo: 'update',
-      date: 'update'
+      date: 'update',
+      amountFrom: 'recalc'
     },
 
     filters: {
@@ -63,6 +63,8 @@ $(function () {
       update: function () {
         var self = this
         self.rate = ''
+        self.fromRate = {}
+        self.toRate = {}
         self.amountTo = ''
 
         if (!self.currencyFrom || !self.currencyTo || !self.date || !self.amountFrom) {
@@ -78,8 +80,11 @@ $(function () {
           self.toRate = toRate[0][0]
           toRate = parseFloat(self.toRate.Rate)
           self.rate = toRate * fromRate
-          self.amountTo = self.amountFrom * self.rate
+          self.recalc()
         })
+      },
+      recalc: function () {
+        this.amountTo = this.amountFrom * this.rate
       }
     }
   })
