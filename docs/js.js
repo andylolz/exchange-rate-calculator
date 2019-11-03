@@ -67,7 +67,7 @@ $(function () {
         self.toRate = {}
         self.amountTo = ''
 
-        if (!self.currencyFrom || !self.currencyTo || !self.date || !self.amountFrom) {
+        if (!self.currencyFrom || !self.currencyTo || !self.date) {
           return
         }
 
