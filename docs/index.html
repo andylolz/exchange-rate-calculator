@@ -75,7 +75,7 @@
         <h4>Result: << amountTo | round | commify >> << currencyTo >></h4>
       </div>
 
-      <div class="rates" v-if="amountTo">
+      <div class="rates" v-if="rate">
         <p><strong>Exchange rates used</strong></p>
         <p v-if="(fromRate.Date === toRate.Date && fromRate.Source === toRate.Source) || currencyFrom === 'USD' || currencyTo === 'USD'">
           << currencyFrom >> &rarr; << currencyTo >>: << rate >> (<< fromRate.Date >>; << fromRate.Source >>)
