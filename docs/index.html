@@ -71,23 +71,26 @@
         </div>
       </form>
 
-      <p><strong><< amountTo | round | commify >> << currencyTo >></strong></p>
+      <div class="alert alert-info" role="alert">
+        <h4>Result: << amountTo | round | commify >> << currencyTo >></h4>
+      </div>
 
       <div class="rates">
-        <h4>Exchange rates used</h4>
+        <p><strong>Exchange rates used</strong></p>
         <p v-if="(fromRate.Date === toRate.Date && fromRate.Source === toRate.Source) || currencyFrom === 'USD' || currencyTo === 'USD'">
           << currencyFrom >> &rarr; << currencyTo >>: << rate >> (<< fromRate.Date >>; << fromRate.Source >>)
         </p>
         <p v-else>
           << currencyFrom >> &rarr; USD: << fromRate.Rate >> (<< fromRate.Date >>; << fromRate.Source >>)<br />
-          USD &rarr; << currencyTo >>: << toRate.Rate >> (<< toRate.Date >>; << toRate.Source >>)<br /><br />
+          USD &rarr; << currencyTo >>: << toRate.Rate >> (<< toRate.Date >>; << toRate.Source >>)<br />
+          <hr />
           << currencyFrom >> &rarr; << currencyTo >>: << rate >>
         </p>
       </div>
 
     </div>
 
-    <footer class="my-5 text-muted text-center text-small">
+    <footer class="text-muted text-center text-small">
       <p>Built using <a href="https://twitter.com/Mark_Brough">Mark Brough</a>’s <a href="https://morph.io/markbrough/exchangerates-scraper">exchange rates scraper</a>, which fetches data from OECD and FRED.<span id="last-updated"></span></p>
 
       <p>
