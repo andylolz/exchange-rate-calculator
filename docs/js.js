@@ -1,5 +1,5 @@
-$(function () {
-  var morphApiUrl = 'https://api.morph.io/markbrough/exchangerates-scraper/data.json'
+(function () {
+  var morphApiUrl = 'https://cors-anywhere.herokuapp.com/https://api.morph.io/markbrough/exchangerates-scraper/data.json'
   var morphApiKey = 'wFTSIH61nwMjLBhphd4T'
 
   var project = new Vue({
@@ -43,24 +43,27 @@ $(function () {
       getRate: function (currency, date) {
         if (currency === 'USD') {
           return new Promise((resolve, reject) => {
-            resolve([
-              [{Rate: 1, Date: date}],
+            resolve(
+              { 'data':
+                [{Rate: 1, Date: date}]
+              },
               'success'
-            ])
+            )
           })
         }
         var query = 'SELECT * FROM `rates` WHERE `Currency` = "' + currency + '" ORDER BY ABS( strftime( "%s", `Date` ) - strftime( "%s", "' + date + '" ) ) ASC, Source DESC LIMIT 1'
 
-        return $.ajax({
-          url: morphApiUrl,
-          dataType: 'jsonp',
-          data: {
+        return axios.get(morphApiUrl, {
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+          },
+          params: {
             key: morphApiKey,
             query: query
           }
         })
       },
-      update: function () {
+      update: async function () {
         var self = this
         self.rate = ''
         self.fromRate = {}
@@ -71,24 +74,22 @@ $(function () {
           return
         }
 
-        var fromRate = self.getRate(self.currencyFrom, self.date)
-        var toRate = self.getRate(self.currencyTo, self.date)
+        var fromRate = await self.getRate(self.currencyFrom, self.date)
+        var toRate = await self.getRate(self.currencyTo, self.date)
 
-        $.when(fromRate, toRate).done((fromRate, toRate) => {
-          self.fromRate = fromRate[0][0]
-          fromRate = 1 / parseFloat(self.fromRate.Rate)
-          self.toRate = toRate[0][0]
-          toRate = parseFloat(self.toRate.Rate)
-          self.rate = toRate * fromRate
+        self.fromRate = fromRate.data[0]
+        fromRate = 1 / parseFloat(self.fromRate.Rate)
+        self.toRate = toRate.data[0]
+        toRate = parseFloat(self.toRate.Rate)
+        self.rate = toRate * fromRate
 
-          if (self.amountFrom) {
-            self.recalc()
-          }
-        })
+        if (self.amountFrom) {
+          self.recalc()
+        }
       },
       recalc: function () {
         this.amountTo = this.amountFrom * this.rate
       }
     }
   })
-})
+}).call()
