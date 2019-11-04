@@ -1,6 +1,6 @@
 (function () {
   var currenciesApiUrl = 'https://codelists.codeforiati.org/api/json/en/Currency.json'
-  var morphApiUrl = 'https://cors-anywhere.herokuapp.com/https://api.morph.io/markbrough/exchangerates-scraper/data.json'
+  var morphApiUrl = 'https://api.morph.io/markbrough/exchangerates-scraper/data.json'
   var morphApiKey = 'wFTSIH61nwMjLBhphd4T'
 
   Vue.component('v-select', VueSelect.VueSelect)
@@ -58,27 +58,19 @@
             })
           })
       },
-      getRate: function (currency, date) {
+      getRate: async function (currency, date) {
         if (currency === 'USD') {
           return new Promise((resolve, reject) => {
-            resolve(
-              { 'data':
-                [{Rate: 1, Date: date}]
-              },
+            resolve([{Rate: 1, Date: date}],
               'success'
             )
           })
         }
         var query = 'SELECT * FROM `rates` WHERE `Currency` = "' + currency + '" ORDER BY ABS( strftime( "%s", `Date` ) - strftime( "%s", "' + date + '" ) ) ASC, Source DESC LIMIT 1'
 
-        return axios.get(morphApiUrl, {
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-          },
-          params: {
-            key: morphApiKey,
-            query: query
-          }
+        return await fetchJsonp(`${morphApiUrl}?key=${morphApiKey}&query=${encodeURI(query)}`
+          ).then(function(response) {
+          return response.json()
         })
       },
       update: async function () {
@@ -95,9 +87,9 @@
         var fromRate = await self.getRate(self.currencyFrom, self.date)
         var toRate = await self.getRate(self.currencyTo, self.date)
 
-        self.fromRate = fromRate.data[0]
+        self.fromRate = fromRate[0]
         fromRate = 1 / parseFloat(self.fromRate.Rate)
-        self.toRate = toRate.data[0]
+        self.toRate = toRate[0]
         toRate = parseFloat(self.toRate.Rate)
         self.rate = toRate * fromRate
 
