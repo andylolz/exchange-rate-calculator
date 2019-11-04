@@ -1,4 +1,5 @@
 (function () {
+  var currenciesApiUrl = 'https://codelists.codeforiati.org/api/json/en/Currency.json'
   var morphApiUrl = 'https://cors-anywhere.herokuapp.com/https://api.morph.io/markbrough/exchangerates-scraper/data.json'
   var morphApiKey = 'wFTSIH61nwMjLBhphd4T'
 
@@ -9,7 +10,11 @@
     el: '#project',
 
     data: {
-      currencies: [],
+      currencies: [{'code': 'XDR', 'label': 'XDR'}, {'code': 'GBP', 'label': 'GBP'}],
+      supportedCurrencies: ["AUD", "BRL", "CAD", "CHF", "CLP", "CNY", "COP", "CRC",
+        "CZK", "DKK", "EUR", "GBP", "HKD", "HUF", "IDR", "ILS", "INR", "ISK", "JPY",
+        "KRW", "LKR", "LVL", "MXN", "MYR", "NOK", "NZD", "PLN", "RUB", "SEK", "SGD",
+        "THB", "TRY", "TWD", "VEF", "XDR", "ZAR"],
       amountFrom: '1000000',
       currencyFrom: 'XDR',
       amountTo: '',
@@ -43,12 +48,15 @@
 
     methods: {
       getCurrencyLabel(currency) {
-        return `${currency.label} (${currency.code})`
+        return `${currency.name} (${currency.code})`
       },
       getCurrencies() {
-        this.currencies = [['USD', 'US Dollar'], ['AUD', 'Australian Dollar'], ['BRL', 'Brazilian Real'], ['CAD', 'Canadian Dollar'], ['CHF', 'Swiss Franc'], ['CLP', 'Chilean Peso'], ['CNY', 'Yuan Renminbi'], ['COP', 'Colombian Peso'], ['CRC', 'Costa Rican Colon'], ['CZK', 'Czech Koruna'], ['DKK', 'Danish Krone'], ['EUR', 'Euro'], ['GBP', 'Pound Sterling'], ['HKD', 'Hong Kong Dollar'], ['HUF', 'Forint'], ['IDR', 'Rupiah'], ['ILS', 'New Israeli Sheqel'], ['INR', 'Indian Rupee'], ['ISK', 'Iceland Krona'], ['JPY', 'Yen'], ['KRW', 'Won'], ['LKR', 'Sri Lanka Rupee'], ['LVL', 'Latvian Lats'], ['MXN', 'Mexican Peso'], ['MYR', 'Malaysian Ringgit'], ['NOK', 'Norwegian Krone'], ['NZD', 'New Zealand Dollar'], ['PLN', 'Zloty'], ['RUB', 'Russian Ruble'], ['SEK', 'Swedish Krona'], ['SGD', 'Singapore Dollar'], ['THB', 'Baht'], ['TRY', 'Turkish Lira'], ['TWD', 'New Taiwan Dollar'], ['VEF', 'Bolivar'], ['XDR', 'International Monetary Fund (IMF) Special Drawing Right (SDR)'], ['ZAR', 'Rand']].map(currency => {
-          return {'code': currency[0], 'label': currency[1]}
-        })
+        axios.get(currenciesApiUrl)
+          .then(data => {
+            this.currencies = data.data.data.filter(currency=> {
+              return this.supportedCurrencies.includes(currency.code)
+            })
+          })
       },
       getRate: function (currency, date) {
         if (currency === 'USD') {
