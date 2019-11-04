@@ -66,20 +66,25 @@
           </div>
         </form>
 
-        <div class="alert alert-info" role="alert" v-if="rate">
-          <h4>Result: <label><< amountTo | round | commify >></label> << currencyTo >></h4>
-        </div>
+        <div v-if="rate">
+          <div class="alert alert-info" role="alert">
+            <h4>Result: <label><< amountTo | round | commify >></label> << currencyTo >></h4>
+          </div>
 
-        <div class="rates" v-if="rate">
-          <p><strong>Exchange rates used</strong></p>
-          <p v-if="(fromRate.Date === toRate.Date && fromRate.Source === toRate.Source) || currencyFrom === 'USD' || currencyTo === 'USD'">
-            << currencyFrom >> &rarr; << currencyTo >>: << rate >> (<< fromRate.Date >>; << fromRate.Source >>)
-          </p>
-          <p v-else>
-            << currencyFrom >> &rarr; USD: << fromRate.Rate >> (<< fromRate.Date >>; << fromRate.Source >>)<br />
-            USD &rarr; << currencyTo >>: << toRate.Rate >> (<< toRate.Date >>; << toRate.Source >>)<br /><br />
-            << currencyFrom >> &rarr; << currencyTo >>: << rate >>
-          </p>
+          <div class="rates">
+            <p><strong>Exchange rates used</strong></p>
+            <p v-if="(fromRate.Date === toRate.Date && fromRate.Source === toRate.Source) || currencyFrom === 'USD' || currencyTo === 'USD'">
+              << currencyFrom >> &rarr; << currencyTo >>: << rate >> (<< fromRate.Date >>; << fromRate.Source >>)
+            </p>
+            <p v-else>
+              << currencyFrom >> &rarr; USD: << fromRate.Rate >> (<< fromRate.Date >>; << fromRate.Source >>)<br />
+              USD &rarr; << currencyTo >>: << toRate.Rate >> (<< toRate.Date >>; << toRate.Source >>)<br /><br />
+              << currencyFrom >> &rarr; << currencyTo >>: << rate >>
+            </p>
+          </div>
+        </div>
+        <div v-else class="mx-auto pt-3 spinner">
+          <div class="lds-hourglass"></div>
         </div>
       </div>
     </main>
