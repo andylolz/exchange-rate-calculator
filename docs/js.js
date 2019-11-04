@@ -2,13 +2,14 @@
   var morphApiUrl = 'https://cors-anywhere.herokuapp.com/https://api.morph.io/markbrough/exchangerates-scraper/data.json'
   var morphApiKey = 'wFTSIH61nwMjLBhphd4T'
 
+  Vue.component('v-select', VueSelect.VueSelect)
   var project = new Vue({
 
     delimiters: ["<<", ">>"],
     el: '#project',
 
     data: {
-      currencies: [['USD', 'US Dollar'], ['AUD', 'Australian Dollar'], ['BRL', 'Brazilian Real'], ['CAD', 'Canadian Dollar'], ['CHF', 'Swiss Franc'], ['CLP', 'Chilean Peso'], ['CNY', 'Yuan Renminbi'], ['COP', 'Colombian Peso'], ['CRC', 'Costa Rican Colon'], ['CZK', 'Czech Koruna'], ['DKK', 'Danish Krone'], ['EUR', 'Euro'], ['GBP', 'Pound Sterling'], ['HKD', 'Hong Kong Dollar'], ['HUF', 'Forint'], ['IDR', 'Rupiah'], ['ILS', 'New Israeli Sheqel'], ['INR', 'Indian Rupee'], ['ISK', 'Iceland Krona'], ['JPY', 'Yen'], ['KRW', 'Won'], ['LKR', 'Sri Lanka Rupee'], ['LVL', 'Latvian Lats'], ['MXN', 'Mexican Peso'], ['MYR', 'Malaysian Ringgit'], ['NOK', 'Norwegian Krone'], ['NZD', 'New Zealand Dollar'], ['PLN', 'Zloty'], ['RUB', 'Russian Ruble'], ['SEK', 'Swedish Krona'], ['SGD', 'Singapore Dollar'], ['THB', 'Baht'], ['TRY', 'Turkish Lira'], ['TWD', 'New Taiwan Dollar'], ['VEF', 'Bolivar'], ['XDR', 'International Monetary Fund (IMF) Special Drawing Right (SDR)'], ['ZAR', 'Rand']],
+      currencies: [],
       amountFrom: '1000000',
       currencyFrom: 'XDR',
       amountTo: '',
@@ -20,6 +21,7 @@
     },
 
     created: function () {
+      this.getCurrencies()
       this.update()
     },
 
@@ -40,6 +42,11 @@
     },
 
     methods: {
+      getCurrencies() {
+        this.currencies = [['USD', 'US Dollar'], ['AUD', 'Australian Dollar'], ['BRL', 'Brazilian Real'], ['CAD', 'Canadian Dollar'], ['CHF', 'Swiss Franc'], ['CLP', 'Chilean Peso'], ['CNY', 'Yuan Renminbi'], ['COP', 'Colombian Peso'], ['CRC', 'Costa Rican Colon'], ['CZK', 'Czech Koruna'], ['DKK', 'Danish Krone'], ['EUR', 'Euro'], ['GBP', 'Pound Sterling'], ['HKD', 'Hong Kong Dollar'], ['HUF', 'Forint'], ['IDR', 'Rupiah'], ['ILS', 'New Israeli Sheqel'], ['INR', 'Indian Rupee'], ['ISK', 'Iceland Krona'], ['JPY', 'Yen'], ['KRW', 'Won'], ['LKR', 'Sri Lanka Rupee'], ['LVL', 'Latvian Lats'], ['MXN', 'Mexican Peso'], ['MYR', 'Malaysian Ringgit'], ['NOK', 'Norwegian Krone'], ['NZD', 'New Zealand Dollar'], ['PLN', 'Zloty'], ['RUB', 'Russian Ruble'], ['SEK', 'Swedish Krona'], ['SGD', 'Singapore Dollar'], ['THB', 'Baht'], ['TRY', 'Turkish Lira'], ['TWD', 'New Taiwan Dollar'], ['VEF', 'Bolivar'], ['XDR', 'International Monetary Fund (IMF) Special Drawing Right (SDR)'], ['ZAR', 'Rand']].map(currency => {
+          return {'code': currency[0], 'label': currency[1]}
+        })
+      },
       getRate: function (currency, date) {
         if (currency === 'USD') {
           return new Promise((resolve, reject) => {
