@@ -83,7 +83,7 @@
             </p>
           </div>
         </div>
-        <div v-else class="mx-auto pt-3 spinner">
+        <div v-else-if="currencyFrom && currencyTo && date" class="mx-auto pt-3 spinner">
           <div class="lds-hourglass"></div>
         </div>
       </div>

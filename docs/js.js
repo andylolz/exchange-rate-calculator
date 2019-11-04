@@ -81,19 +81,27 @@
       updateFrom: async function () {
         var self = this
         self.clear()
+        if (!self.currencyFrom || !self.date) {
+          self.fromRate = {}
+          return
+        }
         self.fromRate = (await self.getRate(self.currencyFrom, self.date))[0]
         self.recalc()
       },
       updateTo: async function () {
         var self = this
         self.clear()
+        if (!self.currencyTo || !self.date) {
+          self.toRate = {}
+          return
+        }
         self.toRate = (await self.getRate(self.currencyTo, self.date))[0]
         self.recalc()
       },
       updateBoth: async function () {
         var self = this
         self.clear()
-        if (!self.currencyFrom || !self.currencyTo) {
+        if (!self.currencyFrom || !self.currencyTo || !self.date) {
           return
         }
         self.fromRate = (await self.getRate(self.currencyFrom, self.date))[0]
@@ -102,9 +110,6 @@
       },
       recalc: function () {
         var self = this
-        if (!self.amountFrom) {
-          return
-        }
         var fromRate = 1 / parseFloat(self.fromRate.Rate)
         var toRate = parseFloat(self.toRate.Rate)
         self.rate = toRate * fromRate
