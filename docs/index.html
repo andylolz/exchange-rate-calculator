@@ -23,10 +23,10 @@
     <title>Exchange Rate Calculator</title>
 
     <script type="text/javascript" src="//unpkg.com/vue@latest/dist/vue.js"></script>
-    <script src="//code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="js.js?ver={{ site.github.build_revision }}" type="text/javascript"></script>
+    <script src="//unpkg.com/axios/dist/axios.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch-jsonp/1.0.6/fetch-jsonp.min.js"></script>
+    <script src="https://unpkg.com/vue-select@latest"></script>
+    <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
 
     <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css.css?ver={{ site.github.build_revision }}">
@@ -35,35 +35,29 @@
     <main role="main" class="flex-shrink-0">
       <div id="project" class="container py-5">
         <h1>Exchange Rate Calculator</h1>
-
         <form>
           <div class="form-group form-group-lg">
             <label for="currencyFrom">Convert from</label>
-            <select v-model="currencyFrom" class="form-control" id="currencyFrom" name="currencyFrom">
-              <template v-for="currency in currencies">
-                <option
-                  :value="currency[0]">
-                << currency[1] >> (<< currency[0] >>)
-                </option>
-              </template>
-            </select>
-          </div>
-
-          <div class="form-group form-group-lg">
-            <label for="amountFrom">Amount</label>
-            <input type="number" class="form-control" v-model="amountFrom" placeholder="Amount from" id="amountFrom" name="amountFrom" />
+            <v-select v-model="currencyFrom" :reduce="currency => currency.code"
+              :get-option-label="getCurrencyLabel" id="currencyFrom" name="currencyFrom" :options="currencies">
+            </v-select>
           </div>
 
           <div class="form-group form-group-lg">
             <label for="currencyTo">Convert to</label>
-            <select v-model="currencyTo" class="form-control" id="currencyTo" name="currencyTo">
-              <template v-for="currency in currencies">
-                <option
-                  :value="currency[0]">
-                << currency[1] >> (<< currency[0] >>)
-                </option>
-              </template>
-            </select>
+            <v-select v-model="currencyTo" :reduce="currency => currency.code"
+              :get-option-label="getCurrencyLabel" id="currencyFrom" name="currencyTo" :options="currencies">
+            </v-select>
+          </div>
+
+          <div class="form-group form-group-lg">
+            <label for="amountFrom">Amount</label>
+            <div class="input-group">
+              <input type="number" class="form-control" v-model="amountFrom" placeholder="Amount from" id="amountFrom" name="amountFrom" />
+              <div class="input-group-append">
+                <span class="input-group-text"><< currencyFrom >></span>
+              </div>
+            </div>
           </div>
 
           <div class="form-group form-group-lg">
@@ -73,7 +67,7 @@
         </form>
 
         <div class="alert alert-info" role="alert" v-if="rate">
-          <h4>Result: << amountTo | round | commify >> << currencyTo >></h4>
+          <h4>Result: <label><< amountTo | round | commify >></label> << currencyTo >></h4>
         </div>
 
         <div class="rates" v-if="rate">
@@ -87,7 +81,6 @@
             << currencyFrom >> &rarr; << currencyTo >>: << rate >>
           </p>
         </div>
-
       </div>
     </main>
 
@@ -106,5 +99,6 @@
         </p>
       </div>
     </footer>
+    <script src="js.js?ver={{ site.github.build_revision }}" type="text/javascript"></script>
   </body>
 </html>
