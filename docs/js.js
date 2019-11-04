@@ -6,20 +6,20 @@
   Vue.component('v-select', VueSelect.VueSelect)
   var project = new Vue({
 
-    delimiters: ["<<", ">>"],
+    delimiters: ['<<', '>>'],
     el: '#project',
 
     data: {
       currencies: [{'code': 'EUR', 'label': 'EUR'}, {'code': 'GBP', 'label': 'GBP'}],
-      supportedCurrencies: ["AUD", "BRL", "CAD", "CHF", "CLP", "CNY", "COP", "CRC",
-        "CZK", "DKK", "EUR", "GBP", "HKD", "HUF", "IDR", "ILS", "INR", "ISK", "JPY",
-        "KRW", "LKR", "LVL", "MXN", "MYR", "NOK", "NZD", "PLN", "RUB", "SEK", "SGD",
-        "THB", "TRY", "TWD", "USD", "VEF", "XDR", "ZAR"],
+      supportedCurrencies: ['AUD', 'BRL', 'CAD', 'CHF', 'CLP', 'CNY', 'COP', 'CRC',
+        'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'JPY',
+        'KRW', 'LKR', 'LVL', 'MXN', 'MYR', 'NOK', 'NZD', 'PLN', 'RUB', 'SEK', 'SGD',
+        'THB', 'TRY', 'TWD', 'USD', 'VEF', 'XDR', 'ZAR'],
       amountFrom: '1000000',
       currencyFrom: 'EUR',
       amountTo: '',
       currencyTo: 'GBP',
-      date: new Date().toISOString().substring(0,10),
+      date: new Date().toISOString().substring(0, 10),
       fromRate: {},
       toRate: {},
       rate: ''
@@ -47,13 +47,13 @@
     },
 
     methods: {
-      getCurrencyLabel(currency) {
+      getCurrencyLabel (currency) {
         return `${currency.name} (${currency.code})`
       },
-      getCurrencies() {
+      getCurrencies () {
         axios.get(currenciesApiUrl)
           .then(data => {
-            this.currencies = data.data.data.filter(currency=> {
+            this.currencies = data.data.data.filter(currency => {
               return this.supportedCurrencies.includes(currency.code)
             })
           })
@@ -69,7 +69,7 @@
         var query = 'SELECT * FROM `rates` WHERE `Currency` = "' + currency + '" ORDER BY ABS( strftime( "%s", `Date` ) - strftime( "%s", "' + date + '" ) ) ASC, Source DESC LIMIT 1'
 
         return await fetchJsonp(`${morphApiUrl}?key=${morphApiKey}&query=${encodeURI(query)}`
-          ).then(function(response) {
+        ).then(function (response) {
           return response.json()
         })
       },
