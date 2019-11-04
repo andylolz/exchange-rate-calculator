@@ -19,7 +19,7 @@
       currencyFrom: 'EUR',
       amountTo: '',
       currencyTo: 'GBP',
-      date: '1998-11-12',
+      date: new Date().toISOString().substring(0,10),
       fromRate: {},
       toRate: {},
       rate: ''
