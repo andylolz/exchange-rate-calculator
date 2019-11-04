@@ -37,10 +37,8 @@
       <form>
         <div class="form-group form-group-lg">
           <label for="currencyFrom">Convert from</label>
-          <v-select v-model="currencyFrom" :reduce="currency => currency.code" id="currencyFrom" name="currencyFrom" :options="currencies">
-            <template v-slot:option="option">
-              << option.code >> (<< option.label >>)
-            </template>
+          <v-select v-model="currencyFrom" :reduce="currency => currency.code"
+            :get-option-label="getCurrencyLabel" id="currencyFrom" name="currencyFrom" :options="currencies">
           </v-select>
         </div>
 
@@ -51,10 +49,8 @@
 
         <div class="form-group form-group-lg">
           <label for="currencyTo">Convert to</label>
-          <v-select v-model="currencyTo" :reduce="currency => currency.code" id="currencyFrom" name="currencyTo" :options="currencies">
-            <template v-slot:option="option">
-              << option.code >> (<< option.label >>)
-            </template>
+          <v-select v-model="currencyTo" :reduce="currency => currency.code"
+            :get-option-label="getCurrencyLabel" id="currencyFrom" name="currencyTo" :options="currencies">
           </v-select>
         </div>
 
