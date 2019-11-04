@@ -27,13 +27,13 @@
 
     created: function () {
       this.getCurrencies()
-      this.update()
+      this.updateBoth()
     },
 
     watch: {
-      currencyFrom: 'update',
-      currencyTo: 'update',
-      date: 'update',
+      currencyFrom: 'updateFrom',
+      currencyTo: 'updateTo',
+      date: 'updateBoth',
       amountFrom: 'recalc'
     },
 
@@ -73,31 +73,41 @@
           return response.json()
         })
       },
-      update: async function () {
+      clear: function () {
         var self = this
         self.rate = ''
-        self.fromRate = {}
-        self.toRate = {}
         self.amountTo = ''
-
-        if (!self.currencyFrom || !self.currencyTo || !self.date) {
+      },
+      updateFrom: async function () {
+        var self = this
+        self.clear()
+        self.fromRate = (await self.getRate(self.currencyFrom, self.date))[0]
+        self.recalc()
+      },
+      updateTo: async function () {
+        var self = this
+        self.clear()
+        self.toRate = (await self.getRate(self.currencyTo, self.date))[0]
+        self.recalc()
+      },
+      updateBoth: async function () {
+        var self = this
+        self.clear()
+        if (!self.currencyFrom || !self.currencyTo) {
           return
         }
-
-        var fromRate = await self.getRate(self.currencyFrom, self.date)
-        var toRate = await self.getRate(self.currencyTo, self.date)
-
-        self.fromRate = fromRate[0]
-        fromRate = 1 / parseFloat(self.fromRate.Rate)
-        self.toRate = toRate[0]
-        toRate = parseFloat(self.toRate.Rate)
-        self.rate = toRate * fromRate
-
-        if (self.amountFrom) {
-          self.recalc()
-        }
+        self.fromRate = (await self.getRate(self.currencyFrom, self.date))[0]
+        self.toRate = (await self.getRate(self.currencyTo, self.date))[0]
+        self.recalc()
       },
       recalc: function () {
+        var self = this
+        if (!self.amountFrom) {
+          return
+        }
+        var fromRate = 1 / parseFloat(self.fromRate.Rate)
+        var toRate = parseFloat(self.toRate.Rate)
+        self.rate = toRate * fromRate
         this.amountTo = this.amountFrom * this.rate
       }
     }
