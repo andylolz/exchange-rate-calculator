@@ -10,13 +10,13 @@
     el: '#project',
 
     data: {
-      currencies: [{'code': 'XDR', 'label': 'XDR'}, {'code': 'GBP', 'label': 'GBP'}],
+      currencies: [{'code': 'EUR', 'label': 'EUR'}, {'code': 'GBP', 'label': 'GBP'}],
       supportedCurrencies: ["AUD", "BRL", "CAD", "CHF", "CLP", "CNY", "COP", "CRC",
         "CZK", "DKK", "EUR", "GBP", "HKD", "HUF", "IDR", "ILS", "INR", "ISK", "JPY",
         "KRW", "LKR", "LVL", "MXN", "MYR", "NOK", "NZD", "PLN", "RUB", "SEK", "SGD",
         "THB", "TRY", "TWD", "USD", "VEF", "XDR", "ZAR"],
       amountFrom: '1000000',
-      currencyFrom: 'XDR',
+      currencyFrom: 'EUR',
       amountTo: '',
       currencyTo: 'GBP',
       date: '1998-11-12',
