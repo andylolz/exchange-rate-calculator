@@ -14,7 +14,7 @@
       supportedCurrencies: ["AUD", "BRL", "CAD", "CHF", "CLP", "CNY", "COP", "CRC",
         "CZK", "DKK", "EUR", "GBP", "HKD", "HUF", "IDR", "ILS", "INR", "ISK", "JPY",
         "KRW", "LKR", "LVL", "MXN", "MYR", "NOK", "NZD", "PLN", "RUB", "SEK", "SGD",
-        "THB", "TRY", "TWD", "VEF", "XDR", "ZAR"],
+        "THB", "TRY", "TWD", "USD", "VEF", "XDR", "ZAR"],
       amountFrom: '1000000',
       currencyFrom: 'XDR',
       amountTo: '',
