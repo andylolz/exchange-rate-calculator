@@ -20,8 +20,8 @@
       amountTo: '',
       currencyTo: 'GBP',
       date: new Date().toISOString().substring(0, 10),
-      fromRate: {},
-      toRate: {},
+      fromRate: null,
+      toRate: null,
       rate: ''
     },
 
@@ -78,42 +78,53 @@
         self.rate = ''
         self.amountTo = ''
       },
+      refetch: async function () {
+        var self = this
+        if (self.currencyFrom === self.currencyTo) {
+          return
+        }
+        if (self.currencyFrom && self.date && !self.fromRate) {
+          self.fromRate = (await self.getRate(self.currencyFrom, self.date))[0]
+        }
+        if (self.currencyTo && self.date && !self.toRate) {
+          self.toRate = (await self.getRate(self.currencyTo, self.date))[0]
+        }
+      },
       updateFrom: async function () {
         var self = this
         self.clear()
-        if (!self.currencyFrom || !self.date) {
-          self.fromRate = {}
-          return
-        }
-        self.fromRate = (await self.getRate(self.currencyFrom, self.date))[0]
+        self.fromRate = null
+        await self.refetch()
         self.recalc()
       },
       updateTo: async function () {
         var self = this
         self.clear()
-        if (!self.currencyTo || !self.date) {
-          self.toRate = {}
-          return
-        }
-        self.toRate = (await self.getRate(self.currencyTo, self.date))[0]
+        self.toRate = null
+        await self.refetch()
         self.recalc()
       },
       updateBoth: async function () {
         var self = this
         self.clear()
-        if (!self.currencyFrom || !self.currencyTo || !self.date) {
-          return
-        }
-        self.fromRate = (await self.getRate(self.currencyFrom, self.date))[0]
-        self.toRate = (await self.getRate(self.currencyTo, self.date))[0]
+        self.fromRate = null
+        self.toRate = null
+        await self.refetch()
         self.recalc()
       },
       recalc: function () {
         var self = this
-        var fromRate = 1 / parseFloat(self.fromRate.Rate)
-        var toRate = parseFloat(self.toRate.Rate)
-        self.rate = toRate * fromRate
-        this.amountTo = this.amountFrom * this.rate
+        if (self.currencyFrom === self.currencyTo && self.currencyFrom) {
+          self.rate = 1
+          self.amountTo = self.amountFrom
+          return
+        }
+        if (self.fromRate && self.toRate) {
+          var fromRate = 1 / parseFloat(self.fromRate.Rate)
+          var toRate = parseFloat(self.toRate.Rate)
+          self.rate = toRate * fromRate
+          self.amountTo = self.amountFrom * self.rate
+        }
       }
     }
   })

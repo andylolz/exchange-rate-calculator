@@ -73,7 +73,10 @@
 
           <div class="rates">
             <p><strong>Exchange rates used</strong></p>
-            <p v-if="(fromRate.Date === toRate.Date && fromRate.Source === toRate.Source) || currencyFrom === 'USD' || currencyTo === 'USD'">
+            <p v-if="currencyFrom === currencyTo">
+              << currencyFrom >> &rarr; << currencyTo >>: << rate >>
+            </p>
+            <p v-else-if="(fromRate.Date === toRate.Date && fromRate.Source === toRate.Source) || currencyFrom === 'USD' || currencyTo === 'USD'">
               << currencyFrom >> &rarr; << currencyTo >>: << rate >> (<< fromRate.Date >>; << fromRate.Source >>)
             </p>
             <p v-else>
