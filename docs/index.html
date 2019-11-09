@@ -34,77 +34,85 @@
   <body class="d-flex flex-column h-100">
     <main role="main" class="flex-shrink-0">
       <div id="project" class="container py-5">
-        <h1>Exchange Rate Calculator</h1>
-        <form>
-          <div class="form-group form-group-lg">
-            <label for="currencyFrom">Convert from</label>
-            <v-select v-model="currencyFrom" :reduce="currency => currency.code"
-              :get-option-label="getCurrencyLabel" id="currencyFrom" name="currencyFrom" :options="currencies">
-            </v-select>
-          </div>
+        <div class="row">
+          <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+            <h1>Exchange Rate Calculator</h1>
+            <form>
+              <div class="form-group form-group-lg">
+                <label for="currencyFrom">Convert from</label>
+                <v-select v-model="currencyFrom" :reduce="currency => currency.code"
+                  :get-option-label="getCurrencyLabel" id="currencyFrom" name="currencyFrom" :options="currencies">
+                </v-select>
+              </div>
 
-          <div class="form-group form-group-lg">
-            <label for="currencyTo">Convert to</label>
-            <v-select v-model="currencyTo" :reduce="currency => currency.code"
-              :get-option-label="getCurrencyLabel" id="currencyFrom" name="currencyTo" :options="currencies">
-            </v-select>
-          </div>
+              <div class="form-group form-group-lg">
+                <label for="currencyTo">Convert to</label>
+                <v-select v-model="currencyTo" :reduce="currency => currency.code"
+                  :get-option-label="getCurrencyLabel" id="currencyFrom" name="currencyTo" :options="currencies">
+                </v-select>
+              </div>
 
-          <div class="form-group form-group-lg">
-            <label for="amountFrom">Amount</label>
-            <div class="input-group">
-              <input type="number" class="form-control" v-model="amountFrom" placeholder="Amount from" id="amountFrom" name="amountFrom" />
-              <div class="input-group-append">
-                <span class="input-group-text"><< currencyFrom >></span>
+              <div class="form-group form-group-lg">
+                <label for="amountFrom">Amount</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" v-model="amountFrom" placeholder="Amount from" id="amountFrom" name="amountFrom" />
+                  <div class="input-group-append">
+                    <span class="input-group-text"><< currencyFrom >></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group form-group-lg">
+                <label for="date">Date</label>
+                <input type="date" name="date" id="date" class="form-control" v-model="date" placeholder="Select a date" />
+              </div>
+            </form>
+
+            <div v-if="rate">
+              <div class="alert alert-info" role="alert">
+                <h4>Result: <label><< amountTo | round | commify >></label> << currencyTo >></h4>
+              </div>
+
+              <div class="rates">
+                <p><strong>Exchange rates used</strong></p>
+                <p v-if="currencyFrom === currencyTo">
+                  << currencyFrom >> &rarr; << currencyTo >>: << rate >>
+                </p>
+                <p v-else-if="(fromRate.Date === toRate.Date && fromRate.Source === toRate.Source) || currencyFrom === 'USD' || currencyTo === 'USD'">
+                  << currencyFrom >> &rarr; << currencyTo >>: << rate >> (<< fromRate.Date >>; << fromRate.Source >>)
+                </p>
+                <p v-else>
+                  << currencyFrom >> &rarr; USD: << fromRate.Rate >> (<< fromRate.Date >>; << fromRate.Source >>)<br />
+                  USD &rarr; << currencyTo >>: << toRate.Rate >> (<< toRate.Date >>; << toRate.Source >>)<br /><br />
+                  << currencyFrom >> &rarr; << currencyTo >>: << rate >>
+                </p>
               </div>
             </div>
+            <div v-else-if="currencyFrom && currencyTo && date" class="mx-auto pt-3 spinner">
+              <div class="lds-hourglass"></div>
+            </div>
           </div>
-
-          <div class="form-group form-group-lg">
-            <label for="date">Date</label>
-            <input type="date" name="date" id="date" class="form-control" v-model="date" placeholder="Select a date" />
-          </div>
-        </form>
-
-        <div v-if="rate">
-          <div class="alert alert-info" role="alert">
-            <h4>Result: <label><< amountTo | round | commify >></label> << currencyTo >></h4>
-          </div>
-
-          <div class="rates">
-            <p><strong>Exchange rates used</strong></p>
-            <p v-if="currencyFrom === currencyTo">
-              << currencyFrom >> &rarr; << currencyTo >>: << rate >>
-            </p>
-            <p v-else-if="(fromRate.Date === toRate.Date && fromRate.Source === toRate.Source) || currencyFrom === 'USD' || currencyTo === 'USD'">
-              << currencyFrom >> &rarr; << currencyTo >>: << rate >> (<< fromRate.Date >>; << fromRate.Source >>)
-            </p>
-            <p v-else>
-              << currencyFrom >> &rarr; USD: << fromRate.Rate >> (<< fromRate.Date >>; << fromRate.Source >>)<br />
-              USD &rarr; << currencyTo >>: << toRate.Rate >> (<< toRate.Date >>; << toRate.Source >>)<br /><br />
-              << currencyFrom >> &rarr; << currencyTo >>: << rate >>
-            </p>
-          </div>
-        </div>
-        <div v-else-if="currencyFrom && currencyTo && date" class="mx-auto pt-3 spinner">
-          <div class="lds-hourglass"></div>
         </div>
       </div>
     </main>
 
     <footer class="mt-auto py-3 bg-light">
       <div class="container text-muted text-center text-small">
-        <p>Built using <a href="https://twitter.com/Mark_Brough">Mark Brough</a>’s <a href="https://morph.io/markbrough/exchangerates-scraper">exchange rates scraper</a>, which fetches data from <a href="https://stats.oecd.org">OECD</a> and <a href="https://www.stlouisfed.org">FRED</a>.<span id="last-updated"></span></p>
+        <div class="row">
+          <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+            <p>Built using <a href="https://twitter.com/Mark_Brough">Mark Brough</a>’s <a href="https://morph.io/markbrough/exchangerates-scraper">exchange rates scraper</a>, which fetches data from <a href="https://stats.oecd.org">OECD</a> and <a href="https://www.stlouisfed.org">FRED</a>.<span id="last-updated"></span></p>
 
-        <p>
-          Access the data via <a href="https://morph.io/documentation/api?scraper=markbrough%2Fexchangerates-scraper">API</a>.
-        </p>
+            <p>
+              Access the data via <a href="https://morph.io/documentation/api?scraper=markbrough%2Fexchangerates-scraper">API</a>.
+            </p>
 
-        <p>
-          A <a href="https://codeforiati.org">Code for IATI</a> project /
-          <a href="https://github.com/codeforIATI/exchange-rate-calculator">Source code</a> /
-          <a href="https://github.com/codeforIATI/exchange-rate-calculator/issues/new/choose">Report a bug</a>
-        </p>
+            <p>
+              A <a href="https://codeforiati.org">Code for IATI</a> project /
+              <a href="https://github.com/codeforIATI/exchange-rate-calculator">Source code</a> /
+              <a href="https://github.com/codeforIATI/exchange-rate-calculator/issues/new/choose">Report a bug</a>
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
     <script src="js.js?ver={{ site.github.build_revision }}" type="text/javascript"></script>
