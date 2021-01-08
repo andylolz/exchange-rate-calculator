@@ -34,6 +34,7 @@ $font-size: 1em;
   width: 0;
   max-width: 100%;
   flex-grow: 1;
+  z-index: 1;
 }
 
 .vs__search::placeholder {
@@ -48,10 +49,9 @@ $font-size: 1em;
 .vs--unsearchable {
   .vs__search {
     opacity: 1;
-
-    &:hover {
-      cursor: pointer;
-    }
+  }
+  &:not(.vs--disabled) .vs__search:hover {
+    cursor: pointer;
   }
 }
 // Single, when searching but not loading or open

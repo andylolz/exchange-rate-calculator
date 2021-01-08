@@ -6,19 +6,19 @@
   "flags": [],
   "linkedModules": [],
   "topLevelPatterns": [
-    "axios@^0.21.1",
-    "bootstrap@^4.4.1",
-    "fetch-jsonp@^1.1.3",
-    "vue-select@^3.4.0",
-    "vue@^2.6.10"
+    "axios@*",
+    "bootstrap@*",
+    "fetch-jsonp@*",
+    "vue-select@*",
+    "vue@*"
   ],
   "lockfileEntries": {
-    "axios@^0.21.1": "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8",
-    "bootstrap@^4.4.1": "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.4.1.tgz#8582960eea0c5cd2bede84d8b0baf3789c3e8b01",
-    "fetch-jsonp@^1.1.3": "https://registry.yarnpkg.com/fetch-jsonp/-/fetch-jsonp-1.1.3.tgz#9eb9e585ba08aaf700563538d17bbebbcd5a3db2",
+    "axios@*": "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8",
+    "bootstrap@*": "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.5.3.tgz#c6a72b355aaf323920be800246a6e4ef30997fe6",
+    "fetch-jsonp@*": "https://registry.yarnpkg.com/fetch-jsonp/-/fetch-jsonp-1.1.3.tgz#9eb9e585ba08aaf700563538d17bbebbcd5a3db2",
     "follow-redirects@^1.10.0": "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.1.tgz#5f69b813376cee4fd0474a3aba835df04ab763b7",
-    "vue-select@^3.4.0": "https://registry.yarnpkg.com/vue-select/-/vue-select-3.4.0.tgz#e56b0612845d13d10162cd8df81bfb46af2083ac",
-    "vue@^2.6.10": "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
+    "vue-select@*": "https://registry.yarnpkg.com/vue-select/-/vue-select-3.11.2.tgz#3ef93e3f2707e133c2df0b2920a05eea78764d18",
+    "vue@*": "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   },
   "files": [],
   "artifacts": {}
